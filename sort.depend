@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1415054421 source:c:\users\the wiking\documents\github\algorytmy\sortowanie s6\sort\sortowanie\sort.cpp
+	<iostream>
+	<string>
+	<cmath>
+
