@@ -19,7 +19,7 @@ int stringNaInt(string liczby){
     wyjscie+=(liczby[i]-48)*pow(10,liczby.length()-i-1);
   return wyjscie;
 }
-bool sortowanie(tablica doPosortowania[1000],int a){
+bool sortowanie(tablica *doPosortowania,int a){
   tablica bufor;
   bool test=true;
   for(int i=1;a>i;i++){
@@ -33,8 +33,8 @@ bool sortowanie(tablica doPosortowania[1000],int a){
         test=false;
       }
       else if(doPosortowania[i-1].suma==doPosortowania[i].suma){
-          for(int ii=0;doPosortowania[i-1].wyrazenie.length()>ii;ii++)
-        if(doPosortowania[i-1].wyrazenie[ii]>doPosortowania[i].wyrazenie[ii]){
+          for(int ii=1;doPosortowania[i-1].wyrazenie.length()>ii;ii++){
+        if((doPosortowania[i-1].wyrazenie[ii-1]-48)>(doPosortowania[i].wyrazenie[ii-1]-48)){
         bufor.wyrazenie=doPosortowania[i-1].wyrazenie;
         bufor.suma=doPosortowania[i-1].suma;
         doPosortowania[i-1].wyrazenie=doPosortowania[i].wyrazenie;
@@ -43,45 +43,27 @@ bool sortowanie(tablica doPosortowania[1000],int a){
         doPosortowania[i].suma=bufor.suma;
         test=false;
         }
+        }
       }
   }
   return test;
-}/*
-bool sprawdzenie(int tab[1000][2],int a){
-  for(int i=1;a>i;i++)
-  if(tab[i-1][1]<=tab[i][1]&&tab[i-1][0]<tab[i][0]){
-    if(i==a)
-      return true;
-  }
-  else
-    if(i==a)
-    return false;
-
-}*/
-
+}
 int main(){
   int t,a=0;
-  cin>>t;
+  bool spr=false;
   string liczby;
-  tablica struktura[1000];
-  int doPosortowania[1000][2]={0};
+  cin>>t;
+  tablica *struktura = new tablica[t];
   for(int i=0;t>i;i++){
       cin>>liczby;
       struktura[i].wyrazenie=liczby;
       struktura[i].suma=sumowanie(liczby);
       a++;
   }
-  for(int i=0;t>i;i++){
-    cout<<struktura[i].wyrazenie<<" suma "<<struktura[i].suma<<endl;
-  }
-  bool spr=false;
-
-  while(!spr){
-  spr=sortowanie(struktura,a);
-  }
-  cout<<endl;
-    for(int i=0;t>i;i++){
+  while(!spr)
+    spr=sortowanie(struktura,a);
+  for(int i=0;t>i;i++)
     cout<<struktura[i].wyrazenie<<endl;
-  }
+  delete[] struktura;
 return 0;
 }
