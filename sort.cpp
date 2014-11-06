@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <cmath>
+
 using namespace std;
 
 struct tablica{
@@ -21,26 +22,24 @@ int stringNaInt(string liczby){
 }
 bool sortowanie(tablica *doPosortowania,int a){
   tablica bufor;
-  bool test=true;
+  bool test=false;
   for(int i=1;a>i;i++){
-      if(doPosortowania[i-1].suma>doPosortowania[i].suma){
-        bufor.wyrazenie=doPosortowania[i-1].wyrazenie;
-        bufor.suma=doPosortowania[i-1].suma;
-        doPosortowania[i-1].wyrazenie=doPosortowania[i].wyrazenie;
-        doPosortowania[i-1].suma=doPosortowania[i].suma;
-        doPosortowania[i].wyrazenie=bufor.wyrazenie;
-        doPosortowania[i].suma=bufor.suma;
+      if(doPosortowania[i-1].suma<doPosortowania[i].suma){
+          test=true;
+        continue;
+      }
+      else if(doPosortowania[i-1].suma>doPosortowania[i].suma){
+        bufor=doPosortowania[i-1];
+        doPosortowania[i-1]=doPosortowania[i];
+        doPosortowania[i]=bufor;
         test=false;
       }
       else if(doPosortowania[i-1].suma==doPosortowania[i].suma){
           for(int ii=1;doPosortowania[i-1].wyrazenie.length()>ii;ii++){
         if((doPosortowania[i-1].wyrazenie[ii-1]-48)>(doPosortowania[i].wyrazenie[ii-1]-48)){
-        bufor.wyrazenie=doPosortowania[i-1].wyrazenie;
-        bufor.suma=doPosortowania[i-1].suma;
-        doPosortowania[i-1].wyrazenie=doPosortowania[i].wyrazenie;
-        doPosortowania[i-1].suma=doPosortowania[i].suma;
-        doPosortowania[i].wyrazenie=bufor.wyrazenie;
-        doPosortowania[i].suma=bufor.suma;
+        bufor=doPosortowania[i-1];
+        doPosortowania[i-1]=doPosortowania[i];
+        doPosortowania[i]=bufor;
         test=false;
         }
         }
@@ -49,7 +48,7 @@ bool sortowanie(tablica *doPosortowania,int a){
   return test;
 }
 int main(){
-  int t,a=0;
+  int t;
   bool spr=false;
   string liczby;
   cin>>t;
@@ -58,10 +57,9 @@ int main(){
       cin>>liczby;
       struktura[i].wyrazenie=liczby;
       struktura[i].suma=sumowanie(liczby);
-      a++;
   }
   while(!spr)
-    spr=sortowanie(struktura,a);
+    spr=sortowanie(struktura,t);
   for(int i=0;t>i;i++)
     cout<<struktura[i].wyrazenie<<endl;
   delete[] struktura;
